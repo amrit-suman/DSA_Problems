@@ -47,7 +47,7 @@ public class LC_205_IsomorphicString {
     public static boolean isIsomorphic(String s, String t) {
 
         //If a map is required for each alphabet character, always use int array with  ASCII charaters;
-        //This algo works because it checks ithe current set of both characters were seen last at the same index;
+        //This algo works because it checks ithe current set of both characters were seen last at the same position;
         int[] m = new int[128];
         int[] n = new int[128];
 
