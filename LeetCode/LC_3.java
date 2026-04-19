@@ -41,55 +41,59 @@ s consists of English letters, digits, symbols and spaces.
 public class LC_3 {
 
     public static void main(String[] args) {
-        System.out.println(lengthOfLongestSubstring("abcabde"));
+        // Test case: find longest substring without repeating characters in "abcabde"
+        System.out.println(lengthOfLongestSubstring("abcabde")); // Expected output: 4 ("abde")
     }
 
-    public static int lengthOfLongestSubstring(String s) { //O(n)
-        
-        int n = s.length();
-        if (n == 0 || n == 1) return n;
+    public static int lengthOfLongestSubstring(String s) { // O(n) time complexity using sliding window
 
-        int i = 0, j = 0, longestLen = 0;
-        Set<Character> charSet = new HashSet<>();
+        int n = s.length(); // Store string length to avoid repeated method calls
+        if (n == 0 || n == 1)
+            return n; // Base case: empty or single character strings return their length
 
-        while(j < n){
-            char ch = s.charAt(j);
-            if(!charSet.contains(ch)){
-                charSet.add(ch);
-                longestLen = Math.max(longestLen, j - i + 1);
-                j++;
-            }else{
-                charSet.remove(s.charAt(i));
-                i++;
+        int i = 0, j = 0, longestLen = 0; // i: left window boundary, j: right window boundary, longestLen: max length
+                                          // found
+        Set<Character> charSet = new HashSet<>(); // Store characters in current window to detect duplicates
+
+        while (j < n) { // Expand window: move right pointer through entire string
+            char ch = s.charAt(j); // Get character at right pointer
+            if (!charSet.contains(ch)) { // If character is not in current window (no duplicate)
+                charSet.add(ch); // Add character to set to track it in current window
+                longestLen = Math.max(longestLen, j - i + 1); // Update longestLen if current window is larger
+                j++; // Move right pointer to expand window
+            } else { // If character already exists in window (duplicate found)
+                charSet.remove(s.charAt(i)); // Remove leftmost character from set
+                i++; // Move left pointer right to shrink window and exclude duplicate
             }
         }
-        return longestLen;
+        return longestLen; // Return maximum substring length found without repeating characters
     }
 
-    // public static int lengthOfLongestSubstring(String s) { //O(n^2)
-        
-    //     int strLen = s.length();
-    //     if(strLen == 0 || strLen == 1) return strLen;
+    // public static int lengthOfLongestSubstring(String s) { //O(n^2) Brute force
+    // approach
 
-    //     int i = 0, j = 0, longestLen = 0;
-    //     Set<Character> charSet = new HashSet<>();
+    // int strLen = s.length();
+    // if(strLen == 0 || strLen == 1) return strLen;
 
-    //     while(i < strLen && j < strLen){
-    //         if(!charSet.contains(s.charAt(j))){
-    //             charSet.add(s.charAt(j));
-    //             j++;
-    //         }else{
-    //             if(j - i > longestLen) {
-    //                 longestLen = j - i;
-    //             }
-    //             charSet.clear();
-    //             i++;
-    //             j = i;
-    //         }
-    //     }
-    //     if(j - i > longestLen) {
-    //         longestLen = j - i;
-    //     }
-    //     return longestLen;
+    // int i = 0, j = 0, longestLen = 0;
+    // Set<Character> charSet = new HashSet<>();
+
+    // while(i < strLen && j < strLen){
+    // if(!charSet.contains(s.charAt(j))){
+    // charSet.add(s.charAt(j));
+    // j++;
+    // }else{
+    // if(j - i > longestLen) {
+    // longestLen = j - i;
+    // }
+    // charSet.clear();
+    // i++;
+    // j = i;
+    // }
+    // }
+    // if(j - i > longestLen) {
+    // longestLen = j - i;
+    // }
+    // return longestLen;
     // }
 }
